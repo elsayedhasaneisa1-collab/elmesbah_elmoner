@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>تسجيل في مسابقة المصباح المنير</title>
+<meta name="description" content="منصة تسجيل المتسابقين في مسابقة المصباح المنير لحفظ القرآن الكريم.">
+<meta name="keywords" content="مسابقة المصباح المنير, تسجيل مسابقة قرآن, حفظ القرآن الكريم, المصباح المنير">
+<meta name="author" content="EL-sayed Hasan">
+<meta name="robots" content="index, follow">
+<meta name="googlebot" content="index, follow">
+
+<meta property="og:title" content="تسجيل في مسابقة المصباح المنير">
+<meta property="og:description" content="منصة تسجيل المتسابقين في مسابقة المصباح المنير.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/logo.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<main class="container">
+
+<div class="logo-wrap">
+<img src="assets/logo.png" alt="شعار مسابقة المصباح المنير" class="logo" draggable="false">
+</div>
+
+<h1 class="title">مسابقة المصباح المنير</h1>
+<p class="subtitle">سجّل الآن وكن من الحفظة</p>
+
+<form id="regForm" class="form" autocomplete="off">
+
+<div class="field">
+<label for="name"><i class="fa-solid fa-user"></i> الاسم</label>
+<input type="text" id="name" placeholder="اكتب اسمك الرباعي" required>
+</div>
+
+<div class="field">
+<label for="phone"><i class="fa-solid fa-mobile-screen"></i> رقم الموبايل</label>
+<input type="tel" id="phone" placeholder="01xxxxxxxxx" pattern="01[0-9]{9}" required>
+</div>
+
+<div class="field">
+<label for="nationalId"><i class="fa-solid fa-id-card"></i> الرقم القومي</label>
+<input type="text" id="nationalId" placeholder="14 رقم" pattern="[0-9]{14}" maxlength="14" required>
+</div>
+
+<div class="field">
+<label for="level"><i class="fa-solid fa-graduation-cap"></i> المستوى</label>
+<select id="level" required>
+<option value="">-- اختر المستوى --</option>
+<option value="مبتدئ">مبتدئ</option>
+<option value="متوسط">متوسط</option>
+<option value="متقدم">متقدم</option>
+</select>
+</div>
+
+<div class="field">
+<label for="birthDate"><i class="fa-solid fa-calendar-days"></i> تاريخ الميلاد</label>
+<input type="date" id="birthDate" required>
+</div>
+
+<button type="submit" class="submit-btn">
+<i class="fa-solid fa-check-circle"></i> سجّل الآن
+</button>
+
+</form>
+
+<div id="successMsg" class="success-msg">
+<i class="fa-solid fa-circle-check"></i>
+<p>تم التسجيل بنجاح</p>
+<span>جزاك الله خيرًا</span>
+</div>
+
+</main>
+
+<footer class="footer">
+<p>
+Developed by
+<a href="https://wa.me/201128351702?text=%D8%A7%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1" target="_blank" rel="noopener" class="dev-link">
+EL-sayed Hasan
+</a>
+</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+</body>
+</html>

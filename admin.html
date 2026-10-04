@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم - مسابقة المصباح المنير</title>
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="stylesheet" href="admin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="loginScreen" class="login-screen">
+<div class="login-box">
+<img src="assets/logo.png" class="login-logo" alt="logo">
+<h2>لوحة التحكم</h2>
+<p>ادخل كلمة المرور</p>
+<input type="password" id="passwordInput" placeholder="كلمة المرور">
+<button id="loginBtn"><i class="fa-solid fa-lock"></i> دخول</button>
+<p id="loginError" class="login-error"></p>
+</div>
+</div>
+
+<div id="dashboard" class="dashboard" style="display:none;">
+
+<header class="dash-header">
+<div class="dash-title">
+<img src="assets/logo.png" alt="logo" class="dash-logo">
+<h1>المتسابقون</h1>
+</div>
+<button id="logoutBtn" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
+</header>
+
+<div class="stats">
+<div class="stat-card">
+<i class="fa-solid fa-users"></i>
+<div>
+<span class="stat-num" id="totalCount">0</span>
+<span class="stat-label">إجمالي المتسابقين</span>
+</div>
+</div>
+<div class="stat-card green">
+<i class="fa-solid fa-seedling"></i>
+<div>
+<span class="stat-num" id="beginnerCount">0</span>
+<span class="stat-label">مبتدئ</span>
+</div>
+</div>
+<div class="stat-card red">
+<i class="fa-solid fa-star"></i>
+<div>
+<span class="stat-num" id="advancedCount">0</span>
+<span class="stat-label">متقدم</span>
+</div>
+</div>
+</div>
+
+<div class="toolbar">
+<input type="text" id="searchInput" placeholder="🔍 ابحث بالاسم أو الموبايل...">
+<button id="exportBtn" class="export-btn"><i class="fa-solid fa-download"></i> تصدير Excel</button>
+<button id="refreshBtn" class="refresh-btn"><i class="fa-solid fa-rotate"></i> تحديث</button>
+</div>
+
+<div class="table-wrap">
+<table id="dataTable">
+<thead>
+<tr>
+<th>#</th>
+<th>الاسم</th>
+<th>الموبايل</th>
+<th>الرقم القومي</th>
+<th>المستوى</th>
+<th>تاريخ الميلاد</th>
+<th>وقت التسجيل</th>
+<th>إجراء</th>
+</tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
+<p id="emptyMsg" class="empty-msg" style="display:none;">لا يوجد متسابقون حتى الآن</p>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="admin.js"></script>
+</body>
+</html>
