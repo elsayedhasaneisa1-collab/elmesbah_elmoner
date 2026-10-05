@@ -14,6 +14,7 @@ let allData = [];
 let filteredData = [];
 let sortField = 'created_at';
 let sortAsc = false;
+let selectedIds = new Set();
 
 const loginScreen = document.getElementById('loginScreen');
 const dashboard = document.getElementById('dashboard');
@@ -82,6 +83,7 @@ function checkSession() {
 function showDashboard() {
   loginScreen.style.display = 'none';
   dashboard.style.display = 'block';
+  initBulkBar();
   loadData();
 }
 
@@ -105,7 +107,7 @@ logoutBtn.addEventListener('click', () => {
 });
 
 async function loadData() {
-  tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:#D4AF37;">جاري التحميل...</td></tr>';
+  tableBody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;color:#D4AF37;">جاري التحميل...</td></tr>';
 
   const { data, error } = await db
     .from('registrations')
@@ -113,11 +115,12 @@ async function loadData() {
     .order('created_at', { ascending: false });
 
   if (error) {
-    tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:#E63946;">حدث خطأ في التحميل</td></tr>';
+    tableBody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;color:#E63946;">حدث خطأ في التحميل</td></tr>';
     return;
   }
 
   allData = data || [];
+  selectedIds.clear();
   updateStats();
   applyFilters();
 }
@@ -162,12 +165,17 @@ function renderTable() {
   if (filteredData.length === 0) {
     tableBody.innerHTML = '';
     emptyMsg.style.display = 'block';
+    updateBulkBar();
+    updateSelectAllState();
     return;
   }
 
   emptyMsg.style.display = 'none';
   tableBody.innerHTML = filteredData.map((row, i) => `
-    <tr>
+    <tr data-id="${row.id}">
+      <td>
+        <input type="checkbox" class="row-check" data-id="${row.id}" ${selectedIds.has(row.id) ? 'checked' : ''}>
+      </td>
       <td>${i + 1}</td>
       <td>${escapeHtml(row.name)}</td>
       <td>${escapeHtml(row.phone)}</td>
@@ -188,6 +196,19 @@ function renderTable() {
       </td>
     </tr>
   `).join('');
+
+  document.querySelectorAll('.row-check').forEach(cb => {
+    cb.addEventListener('change', (e) => {
+      const id = Number(e.target.dataset.id);
+      if (e.target.checked) selectedIds.add(id);
+      else selectedIds.delete(id);
+      updateBulkBar();
+      updateSelectAllState();
+    });
+  });
+
+  updateBulkBar();
+  updateSelectAllState();
 }
 
 function formatDate(dateStr) {
@@ -326,5 +347,87 @@ exportPdfBtn.addEventListener('click', () => {
   });
   doc.save('المتسابقين_' + new Date().toISOString().slice(0,10) + '.pdf');
 });
+
+function initBulkBar() {
+  if (document.getElementById('bulkBar')) return;
+
+  const bar = document.createElement('div');
+  bar.id = 'bulkBar';
+  bar.className = 'bulk-bar';
+  bar.style.display = 'none';
+  bar.innerHTML = `
+    <div class="bulk-info">
+      <i class="fa-solid fa-check-double"></i>
+      <span>تم تحديد <strong id="bulkCount">0</strong> متسابق</span>
+    </div>
+    <div class="bulk-actions">
+      <button id="deleteSelectedBtn" class="bulk-delete-btn">
+        <i class="fa-solid fa-trash"></i> حذف المحدد
+      </button>
+      <button id="clearSelectionBtn" class="bulk-clear-btn">
+        <i class="fa-solid fa-xmark"></i> إلغاء التحديد
+      </button>
+    </div>
+  `;
+
+  const tableWrap = document.querySelector('.table-wrap');
+  tableWrap.parentNode.insertBefore(bar, tableWrap);
+
+  document.getElementById('deleteSelectedBtn').addEventListener('click', deleteSelected);
+  document.getElementById('clearSelectionBtn').addEventListener('click', () => {
+    selectedIds.clear();
+    renderTable();
+  });
+
+  const selectAll = document.getElementById('selectAll');
+  if (selectAll) {
+    selectAll.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        filteredData.forEach(r => selectedIds.add(r.id));
+      } else {
+        filteredData.forEach(r => selectedIds.delete(r.id));
+      }
+      renderTable();
+    });
+  }
+}
+
+function updateBulkBar() {
+  const bar = document.getElementById('bulkBar');
+  const count = document.getElementById('bulkCount');
+  if (!bar || !count) return;
+
+  if (selectedIds.size > 0) {
+    bar.style.display = 'flex';
+    count.textContent = selectedIds.size;
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+function updateSelectAllState() {
+  const selectAll = document.getElementById('selectAll');
+  if (!selectAll) return;
+  const total = filteredData.length;
+  const selected = filteredData.filter(r => selectedIds.has(r.id)).length;
+  selectAll.checked = total > 0 && selected === total;
+  selectAll.indeterminate = selected > 0 && selected < total;
+}
+
+async function deleteSelected() {
+  if (selectedIds.size === 0) return;
+  if (!confirm(`هل أنت متأكد من حذف ${selectedIds.size} متسابق؟`)) return;
+
+  const ids = Array.from(selectedIds);
+  const { error } = await db.from('registrations').delete().in('id', ids);
+
+  if (error) {
+    alert('حدث خطأ في الحذف');
+    return;
+  }
+
+  selectedIds.clear();
+  loadData();
+}
 
 checkSession();
