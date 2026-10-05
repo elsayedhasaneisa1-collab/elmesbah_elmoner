@@ -1,5 +1,4 @@
-const TELEGRAM_BOT_TOKEN = '8894749570:AAEqQdN4vsr-7wynH2baT-p9xTeDpwTM8dM';
-const TELEGRAM_CHAT_IDS = ['-1003945138858'];
+const WORKER_URL = 'https://elmesbah-sender.elsayedhasaneisa1.workers.dev/';
 
 const monthsAr = [
   'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
@@ -56,60 +55,6 @@ const form = document.getElementById('regForm');
 const successMsg = document.getElementById('successMsg');
 const submitBtn = document.querySelector('.submit-btn');
 
-function buildMessage(data) {
-  const dateStr = new Date().toLocaleString('ar-EG', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-
-  return `🌟 تسجيل جديد في مسابقة المصباح المنير 🌟
-
-━━━━━━━━━━━━━━━━━━
-👤 الاسم:
-${data.name}
-
-📱 رقم الموبايل:
-${data.phone}
-
-🆔 الرقم القومي:
-${data.national_id}
-
-🎓 المستوى:
-${data.level}
-
-🎂 تاريخ الميلاد:
-${data.birth_date}
-
-⏰ وقت التسجيل:
-${dateStr}
-━━━━━━━━━━━━━━━━━━
-
-✅ تم التسجيل بنجاح`;
-}
-
-async function sendToTelegram(data) {
-  const message = buildMessage(data);
-  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-
-  const sends = TELEGRAM_CHAT_IDS.map(chatId =>
-    fetch(url, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message,
-        disable_web_page_preview: true
-      })
-    }).catch(() => null)
-  );
-
-  return Promise.all(sends);
-}
-
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -144,7 +89,15 @@ form.addEventListener('submit', async (e) => {
   submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التسجيل...';
 
   try {
-    await sendToTelegram(data);
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ data })
+    });
+
+    const result = await res.json();
+
+    if (!result.ok) throw new Error('Send failed');
 
     form.reset();
     successMsg.style.display = 'block';
