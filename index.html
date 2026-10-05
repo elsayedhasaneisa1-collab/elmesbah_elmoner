@@ -61,8 +61,18 @@
 </div>
 
 <div class="field">
-<label for="birthDate"><i class="fa-solid fa-calendar-days"></i> تاريخ الميلاد</label>
-<input type="date" id="birthDate" required>
+<label><i class="fa-solid fa-calendar-days"></i> تاريخ الميلاد</label>
+<div class="date-group">
+<select id="birthDay" required>
+<option value="">اليوم</option>
+</select>
+<select id="birthMonth" required>
+<option value="">الشهر</option>
+</select>
+<select id="birthYear" required>
+<option value="">السنة</option>
+</select>
+</div>
 </div>
 
 <button type="submit" class="submit-btn">

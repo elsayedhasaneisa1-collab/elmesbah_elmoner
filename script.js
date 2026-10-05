@@ -4,6 +4,41 @@ const SUPABASE_KEY = 'sb_publishable_7yGiH_4H9xfUao610PpJhQ_qraS_Ol0';
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const monthsAr = [
+  'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+  'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
+];
+
+function fillDateSelects() {
+  const daySel = document.getElementById('birthDay');
+  const monthSel = document.getElementById('birthMonth');
+  const yearSel = document.getElementById('birthYear');
+
+  for (let d = 1; d <= 31; d++) {
+    const opt = document.createElement('option');
+    opt.value = String(d).padStart(2, '0');
+    opt.textContent = d;
+    daySel.appendChild(opt);
+  }
+
+  monthsAr.forEach((name, i) => {
+    const opt = document.createElement('option');
+    opt.value = String(i + 1).padStart(2, '0');
+    opt.textContent = name;
+    monthSel.appendChild(opt);
+  });
+
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear; y >= currentYear - 80; y--) {
+    const opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = y;
+    yearSel.appendChild(opt);
+  }
+}
+
+fillDateSelects();
+
 document.addEventListener('contextmenu', e => e.preventDefault());
 
 document.addEventListener('keydown', (e) => {
@@ -27,12 +62,16 @@ const submitBtn = document.querySelector('.submit-btn');
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
+  const day   = document.getElementById('birthDay').value;
+  const month = document.getElementById('birthMonth').value;
+  const year  = document.getElementById('birthYear').value;
+
   const data = {
     name:        document.getElementById('name').value.trim(),
     phone:       document.getElementById('phone').value.trim(),
     national_id: document.getElementById('nationalId').value.trim(),
     level:       document.getElementById('level').value,
-    birth_date:  document.getElementById('birthDate').value
+    birth_date:  (day && month && year) ? `${year}-${month}-${day}` : ''
   };
 
   if (!data.name || !data.phone || !data.national_id || !data.level || !data.birth_date) {
