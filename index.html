@@ -18,40 +18,78 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" type="image/png" href="assets/logo.png">
-<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<main class="container">
-
-<div class="logo-wrap">
-<img src="assets/logo.png" alt="شعار مسابقة المصباح المنير" class="logo" draggable="false">
+<div class="bg-decoration">
+<div class="bg-circle bg-circle-1"></div>
+<div class="bg-circle bg-circle-2"></div>
+<div class="bg-circle bg-circle-3"></div>
 </div>
 
+<main class="container">
+
+<header class="hero">
+<div class="logo-glow"></div>
+<img src="assets/logo.png" alt="شعار مسابقة المصباح المنير" class="logo" draggable="false">
+<div class="bismillah">﷽</div>
 <h1 class="title">مسابقة المصباح المنير</h1>
+<div class="title-divider">
+<span></span>
+<i class="fa-solid fa-book-open"></i>
+<span></span>
+</div>
 <p class="subtitle">سجّل الآن وكن من الحفظة</p>
+</header>
 
 <form id="regForm" class="form" autocomplete="off">
 
+<div class="form-header">
+<h2><i class="fa-solid fa-pen-to-square"></i> استمارة التسجيل</h2>
+<p>املأ البيانات التالية بعناية</p>
+</div>
+
 <div class="field">
-<label for="name"><i class="fa-solid fa-user"></i> الاسم</label>
+<label for="name">
+<i class="fa-solid fa-user"></i>
+<span>الاسم الرباعي</span>
+</label>
+<div class="input-wrap">
 <input type="text" id="name" placeholder="اكتب اسمك الرباعي" required>
 </div>
+</div>
 
 <div class="field">
-<label for="phone"><i class="fa-solid fa-mobile-screen"></i> رقم الموبايل</label>
+<label for="phone">
+<i class="fa-solid fa-mobile-screen"></i>
+<span>رقم الموبايل</span>
+</label>
+<div class="input-wrap">
 <input type="tel" id="phone" placeholder="01xxxxxxxxx" pattern="01[0-9]{9}" required>
 </div>
-
-<div class="field">
-<label for="nationalId"><i class="fa-solid fa-id-card"></i> الرقم القومي</label>
-<input type="text" id="nationalId" placeholder="14 رقم" pattern="[0-9]{14}" maxlength="14" required>
 </div>
 
 <div class="field">
-<label for="level"><i class="fa-solid fa-graduation-cap"></i> المستوى</label>
+<label for="nationalId">
+<i class="fa-solid fa-id-card"></i>
+<span>الرقم القومي</span>
+</label>
+<div class="input-wrap">
+<input type="text" id="nationalId" placeholder="14 رقم" pattern="[0-9]{14}" maxlength="14" required>
+</div>
+</div>
+
+<div class="field">
+<label for="level">
+<i class="fa-solid fa-graduation-cap"></i>
+<span>المستوى</span>
+</label>
+<div class="input-wrap">
 <select id="level" required>
 <option value="">-- اختر المستوى --</option>
 <option value="مبتدئ">مبتدئ</option>
@@ -59,9 +97,13 @@
 <option value="متقدم">متقدم</option>
 </select>
 </div>
+</div>
 
 <div class="field">
-<label><i class="fa-solid fa-calendar-days"></i> تاريخ الميلاد</label>
+<label>
+<i class="fa-solid fa-calendar-days"></i>
+<span>تاريخ الميلاد</span>
+</label>
 <div class="date-group">
 <select id="birthDay" required>
 <option value="">اليوم</option>
@@ -76,13 +118,23 @@
 </div>
 
 <button type="submit" class="submit-btn">
-<i class="fa-solid fa-check-circle"></i> سجّل الآن
+<span class="btn-text">سجّل الآن</span>
+<i class="fa-solid fa-arrow-left"></i>
 </button>
 
 </form>
 
+<div class="whatsapp-contact">
+<a href="https://wa.me/201128351702?text=%D8%A7%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D9%85%D8%B3%D8%A7%D8%A8%D9%82%D8%A9%20%D8%A7%D9%84%D9%85%D8%B5%D8%A8%D8%A7%D8%AD%20%D8%A7%D9%84%D9%85%D9%86%D9%8A%D8%B1" target="_blank" rel="noopener" class="whatsapp-btn">
+<i class="fa-brands fa-whatsapp"></i>
+<span>تواصل معنا على واتساب</span>
+</a>
+</div>
+
 <div id="successMsg" class="success-msg">
+<div class="success-icon">
 <i class="fa-solid fa-circle-check"></i>
+</div>
 <p>تم التسجيل بنجاح</p>
 <span>جزاك الله خيرًا</span>
 </div>
@@ -98,7 +150,6 @@ EL-sayed Hasan
 </p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>
 </body>
 </html>

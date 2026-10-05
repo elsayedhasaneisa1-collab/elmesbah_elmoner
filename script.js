@@ -1,8 +1,5 @@
-const SUPABASE_URL = 'https://qjamhyzdzztqvycxfjrd.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_7yGiH_4H9xfUao610PpJhQ_qraS_Ol0';
-
-const { createClient } = supabase;
-const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+const TELEGRAM_BOT_TOKEN = '8894749570:AAGFdX68E1SvZBrkoX83WazJizshsUtPjRw';
+const TELEGRAM_CHAT_ID = '5106291306';
 
 const monthsAr = [
   'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
@@ -59,6 +56,69 @@ const form = document.getElementById('regForm');
 const successMsg = document.getElementById('successMsg');
 const submitBtn = document.querySelector('.submit-btn');
 
+function escapeTelegram(str) {
+  if (!str) return '';
+  return String(str).replace(/([_*\[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
+}
+
+function buildTelegramMessage(data) {
+  const dateFormatted = new Date().toLocaleString('ar-EG', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  return `🌟 *تسجيل جديد في مسابقة المصباح المنير* 🌟
+
+━━━━━━━━━━━━━━━━━━
+👤 *الاسم:*
+${escapeTelegram(data.name)}
+
+📱 *رقم الموبايل:*
+\`${escapeTelegram(data.phone)}\`
+
+🆔 *الرقم القومي:*
+\`${escapeTelegram(data.national_id)}\`
+
+🎓 *المستوى:*
+${escapeTelegram(data.level)}
+
+🎂 *تاريخ الميلاد:*
+${escapeTelegram(data.birth_date)}
+
+⏰ *وقت التسجيل:*
+${escapeTelegram(dateFormatted)}
+━━━━━━━━━━━━━━━━━━
+
+✅ تم التسجيل بنجاح`;
+}
+
+async function sendToTelegram(data) {
+  const message = buildTelegramMessage(data);
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: TELEGRAM_CHAT_ID,
+      text: message,
+      parse_mode: 'MarkdownV2',
+      disable_web_page_preview: true
+    })
+  });
+
+  const result = await response.json();
+  if (!result.ok) {
+    console.error('Telegram error:', result);
+    throw new Error('Telegram send failed');
+  }
+
+  return result;
+}
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -92,21 +152,21 @@ form.addEventListener('submit', async (e) => {
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التسجيل...';
 
-  const { error } = await db.from('registrations').insert([data]);
+  try {
+    await sendToTelegram(data);
 
-  if (error) {
-    console.error(error);
+    form.reset();
+    successMsg.style.display = 'block';
+    submitBtn.innerHTML = '<span class="btn-text">سجّل الآن</span><i class="fa-solid fa-arrow-left"></i>';
+    submitBtn.disabled = false;
+
+    setTimeout(() => { successMsg.style.display = 'none'; }, 6000);
+    successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  } catch (err) {
+    console.error(err);
     alert('حصل خطأ، حاول تاني');
     submitBtn.disabled = false;
-    submitBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> سجّل الآن';
-    return;
+    submitBtn.innerHTML = '<span class="btn-text">سجّل الآن</span><i class="fa-solid fa-arrow-left"></i>';
   }
-
-  form.reset();
-  successMsg.style.display = 'block';
-  submitBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> سجّل الآن';
-  submitBtn.disabled = false;
-
-  setTimeout(() => { successMsg.style.display = 'none'; }, 5000);
-  successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
