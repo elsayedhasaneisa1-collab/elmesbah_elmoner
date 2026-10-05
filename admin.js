@@ -1,6 +1,6 @@
 const SUPABASE_URL = 'https://qjamhyzdzztqvycxfjrd.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_7yGiH_4H9xfUao610PpJhQ_qraS_Ol0';
-const ADMIN_PASSWORD = 'E@147250';
+const ADMIN_PASSWORD = 'EL@147258';
 
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -72,7 +72,7 @@ logoutBtn.addEventListener('click', () => {
 });
 
 async function loadData() {
-  tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;">جاري التحميل...</td></tr>';
+  tableBody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:#D4AF37;">جاري التحميل...</td></tr>';
 
   const { data, error } = await db
     .from('registrations')
@@ -272,8 +272,8 @@ exportPdfBtn.addEventListener('click', () => {
     head: [['م', 'الاسم', 'الموبايل', 'الرقم القومي', 'المستوى', 'تاريخ الميلاد']],
     body: filteredData.map((row, i) => [i + 1, row.name, row.phone, row.national_id, row.level, row.birth_date]),
     styles: { font: 'helvetica', fontSize: 10, halign: 'center' },
-    headStyles: { fillColor: [15, 59, 76], textColor: 255 },
-    alternateRowStyles: { fillColor: [240, 249, 244] }
+    headStyles: { fillColor: [15, 59, 76], textColor: [212, 175, 55] },
+    alternateRowStyles: { fillColor: [255, 251, 235] }
   });
   doc.save('المتسابقين_' + new Date().toISOString().slice(0,10) + '.pdf');
 });
