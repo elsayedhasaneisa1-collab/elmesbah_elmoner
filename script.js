@@ -104,7 +104,7 @@ async function sendToTelegram(data) {
         text: message,
         disable_web_page_preview: true
       })
-    }).catch(e => ({ ok: false, error: String(e) }))
+    }).catch(() => null)
   );
 
   return Promise.all(sends);
