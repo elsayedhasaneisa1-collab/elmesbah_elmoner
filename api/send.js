@@ -7,16 +7,11 @@ export default async function handler(req, res) {
     const { data } = req.body;
 
     const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-    const CHAT_IDS = (process.env.TELEGRAM_CHAT_IDS || '').split(',').filter(Boolean);
+    const CHAT_IDS = (process.env.TELEGRAM_CHAT_IDS || '').split(',').map(s => s.trim()).filter(Boolean);
 
     if (!TOKEN || CHAT_IDS.length === 0) {
       return res.status(500).json({ error: 'Missing config' });
     }
-
-    const monthsAr = [
-      'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
-      'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
-    ];
 
     const esc = (str) => String(str || '').replace(/([_*\[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
 
