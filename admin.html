@@ -127,7 +127,17 @@
 </div>
 <div class="field">
 <label>تاريخ الميلاد</label>
-<input type="date" id="editBirthDate" required>
+<div class="date-group">
+<select id="editBirthDay" required>
+<option value="">اليوم</option>
+</select>
+<select id="editBirthMonth" required>
+<option value="">الشهر</option>
+</select>
+<select id="editBirthYear" required>
+<option value="">السنة</option>
+</select>
+</div>
 </div>
 <div class="modal-actions">
 <button type="button" id="cancelBtn" class="cancel-btn">إلغاء</button>

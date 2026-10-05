@@ -5,6 +5,11 @@ const ADMIN_PASSWORD = 'EL@147258';
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const monthsAr = [
+  'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+  'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
+];
+
 let allData = [];
 let filteredData = [];
 let sortField = 'created_at';
@@ -37,8 +42,36 @@ const editName = document.getElementById('editName');
 const editPhone = document.getElementById('editPhone');
 const editNationalId = document.getElementById('editNationalId');
 const editLevel = document.getElementById('editLevel');
-const editBirthDate = document.getElementById('editBirthDate');
+const editBirthDay = document.getElementById('editBirthDay');
+const editBirthMonth = document.getElementById('editBirthMonth');
+const editBirthYear = document.getElementById('editBirthYear');
 const cancelBtn = document.getElementById('cancelBtn');
+
+function fillEditDateSelects() {
+  for (let d = 1; d <= 31; d++) {
+    const opt = document.createElement('option');
+    opt.value = String(d).padStart(2, '0');
+    opt.textContent = d;
+    editBirthDay.appendChild(opt);
+  }
+
+  monthsAr.forEach((name, i) => {
+    const opt = document.createElement('option');
+    opt.value = String(i + 1).padStart(2, '0');
+    opt.textContent = name;
+    editBirthMonth.appendChild(opt);
+  });
+
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear; y >= currentYear - 80; y--) {
+    const opt = document.createElement('option');
+    opt.value = y;
+    opt.textContent = y;
+    editBirthYear.appendChild(opt);
+  }
+}
+
+fillEditDateSelects();
 
 document.addEventListener('contextmenu', e => e.preventDefault());
 
@@ -186,7 +219,18 @@ window.editRow = function(id) {
   editPhone.value = row.phone || '';
   editNationalId.value = row.national_id || '';
   editLevel.value = row.level || 'مبتدئ';
-  editBirthDate.value = row.birth_date || '';
+
+  if (row.birth_date) {
+    const parts = row.birth_date.split('-');
+    editBirthYear.value = parts[0] || '';
+    editBirthMonth.value = parts[1] || '';
+    editBirthDay.value = parts[2] || '';
+  } else {
+    editBirthYear.value = '';
+    editBirthMonth.value = '';
+    editBirthDay.value = '';
+  }
+
   editModal.classList.add('active');
 };
 
@@ -205,12 +249,17 @@ editModal.addEventListener('click', (e) => {
 
 editForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  const day = editBirthDay.value;
+  const month = editBirthMonth.value;
+  const year = editBirthYear.value;
+
   const data = {
     name: editName.value.trim(),
     phone: editPhone.value.trim(),
     national_id: editNationalId.value.trim(),
     level: editLevel.value,
-    birth_date: editBirthDate.value
+    birth_date: (day && month && year) ? `${year}-${month}-${day}` : ''
   };
 
   if (!data.name || !data.phone || !data.national_id || !data.level || !data.birth_date) {

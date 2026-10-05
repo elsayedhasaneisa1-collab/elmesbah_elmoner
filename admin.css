@@ -22,7 +22,6 @@ html, body {
   min-height: 100vh;
 }
 
-/* ===== LOGIN ===== */
 .login-screen {
   display: flex;
   align-items: center;
@@ -148,7 +147,6 @@ html, body {
   min-height: 18px;
 }
 
-/* ===== DASHBOARD ===== */
 .dashboard {
   max-width: 1400px;
   margin: 0 auto;
@@ -217,7 +215,6 @@ html, body {
   box-shadow: 0 6px 18px rgba(212,175,55,0.4);
 }
 
-/* ===== STATS ===== */
 .stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -284,7 +281,6 @@ html, body {
   font-weight: 600;
 }
 
-/* ===== TOOLBAR ===== */
 .toolbar {
   display: flex;
   gap: 10px;
@@ -376,7 +372,6 @@ html, body {
 
 .refresh-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(74,85,104,0.45); }
 
-/* ===== TABLE ===== */
 .table-wrap {
   background: var(--white);
   border-radius: 16px;
@@ -451,7 +446,6 @@ tbody td:first-child {
   color: var(--gold-dark);
 }
 
-/* ===== ACTIONS ===== */
 .action-btn {
   background: transparent;
   border: none;
@@ -485,7 +479,6 @@ tbody td:first-child {
   font-size: 15px;
 }
 
-/* ===== MODAL ===== */
 .modal {
   display: none;
   position: fixed;
@@ -565,16 +558,39 @@ tbody td:first-child {
   cursor: pointer;
 }
 
-.modal-box .field input[type="date"] {
-  direction: ltr;
-  text-align: right;
-  cursor: pointer;
+.date-group {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1.2fr;
+  gap: 8px;
 }
 
-.modal-box .field input[type="date"]::-webkit-calendar-picker-indicator {
+.date-group select {
+  width: 100%;
+  padding: 12px 12px;
+  padding-left: 32px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  background: var(--white);
+  color: var(--dark-blue);
+  outline: none;
+  direction: rtl;
+  text-align: right;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230F3B4C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: left 10px center;
+  background-size: 14px;
   cursor: pointer;
-  opacity: 0.6;
-  margin-left: 5px;
+  transition: all 0.25s;
+}
+
+.date-group select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 4px rgba(212,175,55,0.15);
 }
 
 .modal-box .field input:focus,
@@ -621,7 +637,6 @@ tbody td:first-child {
   box-shadow: 0 10px 24px rgba(212,175,55,0.5);
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 700px) {
   .dash-header {
     flex-direction: column;
