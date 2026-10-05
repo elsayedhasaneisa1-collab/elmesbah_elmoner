@@ -49,6 +49,13 @@
 <span class="stat-label">مبتدئ</span>
 </div>
 </div>
+<div class="stat-card orange">
+<i class="fa-solid fa-book"></i>
+<div>
+<span class="stat-num" id="midCount">0</span>
+<span class="stat-label">متوسط</span>
+</div>
+</div>
 <div class="stat-card red">
 <i class="fa-solid fa-star"></i>
 <div>
@@ -59,8 +66,16 @@
 </div>
 
 <div class="toolbar">
-<input type="text" id="searchInput" placeholder="🔍 ابحث بالاسم أو الموبايل...">
-<button id="exportBtn" class="export-btn"><i class="fa-solid fa-download"></i> تصدير Excel</button>
+<input type="text" id="searchInput" placeholder="🔍 ابحث بالاسم أو الموبايل أو الرقم القومي...">
+<select id="filterLevel">
+<option value="">كل المستويات</option>
+<option value="مبتدئ">مبتدئ</option>
+<option value="متوسط">متوسط</option>
+<option value="متقدم">متقدم</option>
+</select>
+<button id="addBtn" class="add-btn"><i class="fa-solid fa-plus"></i> إضافة متسابق</button>
+<button id="exportBtn" class="export-btn"><i class="fa-solid fa-file-excel"></i> Excel</button>
+<button id="exportPdfBtn" class="pdf-btn"><i class="fa-solid fa-file-pdf"></i> PDF</button>
 <button id="refreshBtn" class="refresh-btn"><i class="fa-solid fa-rotate"></i> تحديث</button>
 </div>
 
@@ -69,13 +84,13 @@
 <thead>
 <tr>
 <th>#</th>
-<th>الاسم</th>
+<th class="sortable" data-sort="name">الاسم <i class="fa-solid fa-sort"></i></th>
 <th>الموبايل</th>
 <th>الرقم القومي</th>
-<th>المستوى</th>
-<th>تاريخ الميلاد</th>
-<th>وقت التسجيل</th>
-<th>إجراء</th>
+<th class="sortable" data-sort="level">المستوى <i class="fa-solid fa-sort"></i></th>
+<th class="sortable" data-sort="birth_date">تاريخ الميلاد <i class="fa-solid fa-sort"></i></th>
+<th class="sortable" data-sort="created_at">وقت التسجيل <i class="fa-solid fa-sort"></i></th>
+<th>إجراءات</th>
 </tr>
 </thead>
 <tbody id="tableBody"></tbody>
@@ -85,7 +100,46 @@
 
 </div>
 
+<div id="editModal" class="modal">
+<div class="modal-box">
+<h3 id="modalTitle">تعديل بيانات المتسابق</h3>
+<form id="editForm">
+<input type="hidden" id="editId">
+<div class="field">
+<label>الاسم</label>
+<input type="text" id="editName" required>
+</div>
+<div class="field">
+<label>رقم الموبايل</label>
+<input type="tel" id="editPhone" required>
+</div>
+<div class="field">
+<label>الرقم القومي</label>
+<input type="text" id="editNationalId" maxlength="14" required>
+</div>
+<div class="field">
+<label>المستوى</label>
+<select id="editLevel" required>
+<option value="مبتدئ">مبتدئ</option>
+<option value="متوسط">متوسط</option>
+<option value="متقدم">متقدم</option>
+</select>
+</div>
+<div class="field">
+<label>تاريخ الميلاد</label>
+<input type="date" id="editBirthDate" required>
+</div>
+<div class="modal-actions">
+<button type="button" id="cancelBtn" class="cancel-btn">إلغاء</button>
+<button type="submit" class="save-btn">حفظ</button>
+</div>
+</form>
+</div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="admin.js"></script>
 </body>
 </html>
