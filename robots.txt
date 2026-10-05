@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://elsayedhasaneisa1-collab.github.io/elmesbah_elmoner/sitemap.xml
+Disallow: /admin.html
+Disallow: /admin.js
+Disallow: /admin.css
+
+Sitemap: https://elmesbahelmoner.vercel.app/sitemap.xml
