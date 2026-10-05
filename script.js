@@ -1,4 +1,8 @@
-const WORKER_URL = 'https://elmesbah-sender.elsayedhasaneisa1.workers.dev/';
+const SUPABASE_URL = 'https://qjamhyzdzztqvycxfjrd.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_7yGiH_4H9xfUao610PpJhQ_qraS_Ol0';
+
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const monthsAr = [
   'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
@@ -88,29 +92,21 @@ form.addEventListener('submit', async (e) => {
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التسجيل...';
 
-  try {
-    const res = await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ data })
-    });
+  const { error } = await db.from('registrations').insert([data]);
 
-    const result = await res.json();
-
-    if (!result.ok) throw new Error('Send failed');
-
-    form.reset();
-    successMsg.style.display = 'block';
-    submitBtn.innerHTML = '<span class="btn-text">سجّل الآن</span><i class="fa-solid fa-arrow-left"></i>';
-    submitBtn.disabled = false;
-
-    setTimeout(() => { successMsg.style.display = 'none'; }, 6000);
-    successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-  } catch (err) {
-    console.error(err);
+  if (error) {
+    console.error(error);
     alert('حصل خطأ، حاول تاني');
     submitBtn.disabled = false;
     submitBtn.innerHTML = '<span class="btn-text">سجّل الآن</span><i class="fa-solid fa-arrow-left"></i>';
+    return;
   }
+
+  form.reset();
+  successMsg.style.display = 'block';
+  submitBtn.innerHTML = '<span class="btn-text">سجّل الآن</span><i class="fa-solid fa-arrow-left"></i>';
+  submitBtn.disabled = false;
+
+  setTimeout(() => { successMsg.style.display = 'none'; }, 6000);
+  successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
