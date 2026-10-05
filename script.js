@@ -1,5 +1,5 @@
-const TELEGRAM_BOT_TOKEN = '8894749570:AAGFdX68E1SvZBrkoX83WazJizshsUtPjRw';
-const TELEGRAM_CHAT_IDS = ['-1004478561753'];
+const TELEGRAM_BOT_TOKEN = '8894749570:AAEqQdN4vsr-7wynH2baT-p9xTeDpwTM8dM';
+const TELEGRAM_CHAT_IDS = ['-1003945138858'];
 
 const monthsAr = [
   'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
