@@ -112,6 +112,17 @@ img {
   100% { background-position: 200% 0; }
 }
 
+@keyframes quranGlow {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 20px rgba(212,175,55,0.4));
+  }
+  50% { 
+    transform: scale(1.05) rotate(-3deg);
+    filter: drop-shadow(0 0 35px rgba(212,175,55,0.7));
+  }
+}
+
 .container {
   max-width: 540px;
   margin: 0 auto;
@@ -194,6 +205,155 @@ img {
   color: var(--gray);
   font-size: 15px;
   font-weight: 500;
+}
+
+.loading-box {
+  background: var(--white);
+  padding: 45px 24px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(30, 138, 76, 0.08);
+}
+
+.loading-box i {
+  font-size: 42px;
+  color: var(--green);
+  margin-bottom: 16px;
+}
+
+.loading-box p {
+  color: var(--gray);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.closed-box {
+  background: var(--white);
+  padding: 50px 30px 40px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  border: 2px solid rgba(212, 175, 55, 0.25);
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.8s ease;
+}
+
+.closed-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--green), var(--gold), var(--green));
+  background-size: 200% 100%;
+  animation: shimmer 4s linear infinite;
+}
+
+.closed-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(212,175,55,0.06), transparent 60%);
+  pointer-events: none;
+}
+
+.closed-icon {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 20px;
+}
+
+.closed-icon i {
+  font-size: 80px;
+  color: var(--gold);
+  animation: quranGlow 3s ease-in-out infinite;
+}
+
+.closed-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--dark-blue);
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 1;
+  letter-spacing: -0.5px;
+}
+
+.closed-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.closed-divider span {
+  flex: 1;
+  max-width: 70px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  border-radius: 2px;
+}
+
+.closed-divider i {
+  color: var(--gold);
+  font-size: 18px;
+}
+
+.closed-ayah {
+  font-family: 'Amiri', serif;
+  font-size: 20px;
+  color: var(--green);
+  font-weight: 700;
+  line-height: 2;
+  margin-bottom: 22px;
+  padding: 18px 16px;
+  background: linear-gradient(135deg, rgba(30,138,76,0.06), rgba(212,175,55,0.08));
+  border-radius: 16px;
+  border-right: 4px solid var(--green);
+  border-left: 4px solid var(--gold);
+  position: relative;
+  z-index: 1;
+}
+
+.closed-sub {
+  font-size: 15px;
+  color: var(--gray);
+  line-height: 2;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+  font-weight: 500;
+}
+
+.closed-footer {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(30,138,76,0.1));
+  border-radius: 50px;
+  border: 1px solid rgba(212,175,55,0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.closed-footer i {
+  color: var(--red);
+  font-size: 16px;
+  animation: floatLogo 2s ease-in-out infinite;
+}
+
+.closed-footer span {
+  color: var(--dark-blue);
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .form {
@@ -543,6 +703,11 @@ img {
   .submit-btn { padding: 15px 20px; font-size: 16px; }
   .whatsapp-btn { font-size: 14px; padding: 14px 22px; }
   .success-msg i { font-size: 54px; }
+  .closed-box { padding: 35px 22px 30px; }
+  .closed-icon i { font-size: 60px; }
+  .closed-title { font-size: 20px; }
+  .closed-ayah { font-size: 16px; padding: 14px 12px; }
+  .closed-sub { font-size: 13px; }
 }
 
 @media (max-width: 380px) {

@@ -9,10 +9,16 @@ const monthsAr = [
   'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
 ];
 
+const loadingBox = document.getElementById('loadingBox');
+const closedBox  = document.getElementById('closedBox');
+const form       = document.getElementById('regForm');
+const successMsg = document.getElementById('successMsg');
+const submitBtn  = document.querySelector('.submit-btn');
+
 function fillDateSelects() {
-  const daySel = document.getElementById('birthDay');
+  const daySel   = document.getElementById('birthDay');
   const monthSel = document.getElementById('birthMonth');
-  const yearSel = document.getElementById('birthYear');
+  const yearSel  = document.getElementById('birthYear');
 
   for (let d = 1; d <= 31; d++) {
     const opt = document.createElement('option');
@@ -55,9 +61,41 @@ document.addEventListener('wheel', (e) => {
   if (e.ctrlKey) e.preventDefault();
 }, { passive: false });
 
-const form = document.getElementById('regForm');
-const successMsg = document.getElementById('successMsg');
-const submitBtn = document.querySelector('.submit-btn');
+async function checkRegistrationStatus() {
+  try {
+    const { data, error } = await db
+      .from('settings')
+      .select('value')
+      .eq('key', 'registration_open')
+      .maybeSingle();
+
+    if (error || !data) {
+      showForm();
+      return;
+    }
+
+    if (data.value === 'false') {
+      showClosed();
+    } else {
+      showForm();
+    }
+  } catch (err) {
+    console.error(err);
+    showForm();
+  }
+}
+
+function showForm() {
+  loadingBox.style.display = 'none';
+  closedBox.style.display  = 'none';
+  form.style.display       = 'block';
+}
+
+function showClosed() {
+  loadingBox.style.display = 'none';
+  form.style.display       = 'none';
+  closedBox.style.display  = 'block';
+}
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -110,3 +148,5 @@ form.addEventListener('submit', async (e) => {
   setTimeout(() => { successMsg.style.display = 'none'; }, 6000);
   successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
 });
+
+checkRegistrationStatus();

@@ -47,7 +47,37 @@
 <p class="subtitle">سجّل الآن وكن من الحفظة</p>
 </header>
 
-<form id="regForm" class="form" autocomplete="off">
+<div id="loadingBox" class="loading-box">
+<i class="fa-solid fa-spinner fa-spin"></i>
+<p>جاري التحميل...</p>
+</div>
+
+<div id="closedBox" class="closed-box" style="display:none;">
+<div class="closed-icon">
+<i class="fa-solid fa-book-quran"></i>
+</div>
+<h2 class="closed-title">تم غلق باب التسجيل</h2>
+<div class="closed-divider">
+<span></span>
+<i class="fa-solid fa-star-and-crescent"></i>
+<span></span>
+</div>
+<p class="closed-ayah">
+﴿ وَقُلِ اعْمَلُوا فَسَيَرَى اللَّهُ عَمَلَكُمْ وَرَسُولُهُ وَالْمُؤْمِنُونَ ﴾
+</p>
+<p class="closed-sub">
+نشكر لكم حرصكم على المشاركة في مسابقة المصباح المنير لحفظ القرآن الكريم،
+وقد تم غلق باب التسجيل لهذه النسخة.
+<br>
+نسأل الله أن يجعل القرآن ربيع قلوبنا، وأن يرزقنا حفظه والعمل به.
+</p>
+<div class="closed-footer">
+<i class="fa-solid fa-heart"></i>
+<span>تابعونا في النسخ القادمة بإذن الله</span>
+</div>
+</div>
+
+<form id="regForm" class="form" autocomplete="off" style="display:none;">
 
 <div class="form-header">
 <h2><i class="fa-solid fa-pen-to-square"></i> استمارة التسجيل</h2>

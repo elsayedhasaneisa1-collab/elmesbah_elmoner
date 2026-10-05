@@ -15,6 +15,7 @@ let filteredData = [];
 let sortField = 'created_at';
 let sortAsc = false;
 let selectedIds = new Set();
+let registrationOpen = true;
 
 const loginScreen = document.getElementById('loginScreen');
 const dashboard = document.getElementById('dashboard');
@@ -85,6 +86,7 @@ function showDashboard() {
   dashboard.style.display = 'block';
   initBulkBar();
   loadData();
+  loadRegistrationStatus();
 }
 
 loginBtn.addEventListener('click', () => {
@@ -429,5 +431,72 @@ async function deleteSelected() {
   selectedIds.clear();
   loadData();
 }
+
+async function loadRegistrationStatus() {
+  const { data } = await db
+    .from('settings')
+    .select('value')
+    .eq('key', 'registration_open')
+    .maybeSingle();
+
+  registrationOpen = !data || data.value !== 'false';
+  updateToggleBtn();
+}
+
+function updateToggleBtn() {
+  const btn = document.getElementById('toggleRegBtn');
+  if (!btn) return;
+
+  if (registrationOpen) {
+    btn.className = 'toggle-reg-btn open';
+    btn.innerHTML = '<i class="fa-solid fa-lock-open"></i><span>التسجيل مفتوح</span>';
+  } else {
+    btn.className = 'toggle-reg-btn closed';
+    btn.innerHTML = '<i class="fa-solid fa-lock"></i><span>التسجيل مغلق</span>';
+  }
+}
+
+async function toggleRegistration() {
+  const btn = document.getElementById('toggleRegBtn');
+  if (!btn) return;
+
+  const confirmMsg = registrationOpen
+    ? 'هل أنت متأكد من غلق التسجيل؟ لن يتمكن المتسابقون من التسجيل.'
+    : 'هل أنت متأكد من فتح التسجيل؟ سيتمكن المتسابقون من التسجيل.';
+
+  if (!confirm(confirmMsg)) return;
+
+  btn.disabled = true;
+  const newValue = registrationOpen ? 'false' : 'true';
+
+  const { error } = await db
+    .from('settings')
+    .upsert({ key: 'registration_open', value: newValue }, { onConflict: 'key' });
+
+  if (error) {
+    console.error(error);
+    alert('حدث خطأ، حاول تاني');
+    btn.disabled = false;
+    return;
+  }
+
+  registrationOpen = newValue === 'true';
+  updateToggleBtn();
+  btn.disabled = false;
+
+  const toast = document.createElement('div');
+  toast.className = 'toast-notif';
+  toast.innerHTML = registrationOpen
+    ? '<i class="fa-solid fa-circle-check"></i> تم فتح التسجيل بنجاح'
+    : '<i class="fa-solid fa-circle-check"></i> تم غلق التسجيل بنجاح';
+  document.body.appendChild(toast);
+  setTimeout(() => toast.classList.add('show'), 10);
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+document.getElementById('toggleRegBtn')?.addEventListener('click', toggleRegistration);
 
 checkSession();
