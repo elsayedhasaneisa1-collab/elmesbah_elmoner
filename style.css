@@ -11,7 +11,6 @@
   --shadow-sm: 0 4px 15px rgba(15, 59, 76, 0.08);
   --shadow-md: 0 10px 30px rgba(15, 59, 76, 0.15);
   --shadow-lg: 0 20px 50px rgba(15, 59, 76, 0.2);
-  --whatsapp: #25D366;
 }
 
 * {
@@ -21,9 +20,7 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 html, body {
   font-family: 'Cairo', sans-serif;
@@ -35,17 +32,13 @@ html, body {
   overflow-x: hidden;
 }
 
-body {
-  position: relative;
-  padding: 20px 0 0;
-}
+body { position: relative; padding: 20px 0 0; }
 
 img {
   pointer-events: none;
   -webkit-user-drag: none;
 }
 
-/* ===== BG DECORATION ===== */
 .bg-decoration {
   position: fixed;
   inset: 0;
@@ -94,7 +87,6 @@ img {
   50%      { transform: translate(40px, -40px) scale(1.1); }
 }
 
-/* ===== ANIMATIONS ===== */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(30px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -120,7 +112,6 @@ img {
   100% { background-position: 200% 0; }
 }
 
-/* ===== CONTAINER ===== */
 .container {
   max-width: 540px;
   margin: 0 auto;
@@ -130,7 +121,6 @@ img {
   animation: fadeUp 0.8s ease;
 }
 
-/* ===== HERO ===== */
 .hero {
   text-align: center;
   padding: 30px 20px 40px;
@@ -206,7 +196,6 @@ img {
   font-weight: 500;
 }
 
-/* ===== FORM ===== */
 .form {
   background: var(--white);
   padding: 32px 26px;
@@ -257,10 +246,7 @@ img {
   font-size: 13px;
 }
 
-/* ===== FIELDS ===== */
-.field {
-  margin-bottom: 20px;
-}
+.field { margin-bottom: 20px; }
 
 .field label {
   display: flex;
@@ -291,13 +277,9 @@ img {
   transform: scale(1.1);
 }
 
-.field label span {
-  flex: 1;
-}
+.field label span { flex: 1; }
 
-.input-wrap {
-  position: relative;
-}
+.input-wrap { position: relative; }
 
 .field input,
 .field select {
@@ -341,7 +323,6 @@ img {
   cursor: pointer;
 }
 
-/* ===== DATE GROUP ===== */
 .date-group {
   display: grid;
   grid-template-columns: 1fr 1.3fr 1.3fr;
@@ -380,7 +361,6 @@ img {
   transform: translateY(-1px);
 }
 
-/* ===== SUBMIT BUTTON ===== */
 .submit-btn {
   width: 100%;
   padding: 17px 24px;
@@ -414,18 +394,14 @@ img {
   transition: left 0.6s ease;
 }
 
-.submit-btn:hover::before {
-  left: 100%;
-}
+.submit-btn:hover::before { left: 100%; }
 
 .submit-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 14px 30px rgba(30, 138, 76, 0.45);
 }
 
-.submit-btn:active {
-  transform: translateY(-1px);
-}
+.submit-btn:active { transform: translateY(-1px); }
 
 .submit-btn:disabled {
   opacity: 0.7;
@@ -438,11 +414,8 @@ img {
   transition: transform 0.3s ease;
 }
 
-.submit-btn:hover i {
-  transform: translateX(-5px);
-}
+.submit-btn:hover i { transform: translateX(-5px); }
 
-/* ===== WHATSAPP ===== */
 .whatsapp-contact {
   margin-top: 26px;
   text-align: center;
@@ -474,11 +447,8 @@ img {
   animation: none;
 }
 
-.whatsapp-btn i {
-  font-size: 22px;
-}
+.whatsapp-btn i { font-size: 22px; }
 
-/* ===== SUCCESS ===== */
 .success-msg {
   display: none;
   margin-top: 24px;
@@ -503,9 +473,7 @@ img {
   background: linear-gradient(90deg, var(--green), var(--green-light), var(--green));
 }
 
-.success-icon {
-  margin-bottom: 12px;
-}
+.success-icon { margin-bottom: 12px; }
 
 .success-msg i {
   font-size: 64px;
@@ -526,7 +494,6 @@ img {
   font-weight: 500;
 }
 
-/* ===== FOOTER ===== */
 .footer {
   text-align: center;
   padding: 24px 15px;
@@ -538,9 +505,7 @@ img {
   z-index: 1;
 }
 
-.footer p {
-  opacity: 0.9;
-}
+.footer p { opacity: 0.9; }
 
 .footer .dev-link {
   color: var(--green-light);
@@ -562,16 +527,9 @@ img {
   transition: width 0.3s ease;
 }
 
-.footer .dev-link:hover {
-  color: var(--gold);
-}
+.footer .dev-link:hover { color: var(--gold); }
+.footer .dev-link:hover::after { width: 100%; background: var(--gold); }
 
-.footer .dev-link:hover::after {
-  width: 100%;
-  background: var(--gold);
-}
-
-/* ===== RESPONSIVE ===== */
 @media (max-width: 480px) {
   .container { padding: 15px; }
   .logo { width: 110px; height: 110px; }
